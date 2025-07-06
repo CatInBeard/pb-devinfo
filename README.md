@@ -1,5 +1,6 @@
 # pb-devinfo
 This app collects information about pocketbook device and displays it on the screen. The application does not transmit data, only displays it on the screen
+
 **License**
 
 This repository is licensed under the MIT License.  You are free to copy, modify, and distribute it as you see fit.
