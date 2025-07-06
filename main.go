@@ -7,7 +7,7 @@ package main
 import (
 	"log"
 
-	ink "github.com/CatInBeard/inkview"
+	ink "github.com/dennwc/inkview"
 )
 
 func main() {

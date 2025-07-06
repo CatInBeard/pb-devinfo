@@ -2,4 +2,6 @@ module pb-example-app
 
 go 1.24
 
-require github.com/CatInBeard/inkview v0.3.13 // indirect
+require (
+	github.com/dennwc/inkview v0.3.14 // indirect
+)

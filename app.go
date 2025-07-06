@@ -5,13 +5,15 @@
 package main
 
 import (
+	"fmt"
 	"image"
 	"image/color"
+	"strings"
 
-	ink "github.com/CatInBeard/inkview"
+	ink "github.com/dennwc/inkview"
 )
 
-const defaultFontSize = 14
+const defaultFontSize = 25
 
 type App struct {
 	font  *ink.Font
@@ -23,7 +25,11 @@ func (a *App) Init() error {
 	ink.ClearScreen()
 	ink.DrawTopPanel()
 
-	a.font = ink.OpenFont(ink.DefaultFontMono, defaultFontSize, true)
+	if a.fontH == 0 {
+		a.fontH = defaultFontSize
+	}
+
+	a.font = ink.OpenFont(ink.DefaultFontMono, a.fontH, true)
 	a.font.SetActive(color.RGBA{0, 0, 0, 255})
 	a.fontW = ink.CharWidth('a') // Work only for monospace font
 
@@ -44,9 +50,30 @@ func (a *App) Draw() {
 
 	screenSize := ink.ScreenSize()
 
-	text := GetCurrentTranslation("example_text")
+	text := ""
 
-	ink.DrawString(image.Point{screenSize.X / 5, screenSize.Y / 2}, text)
+	text += fmt.Sprintln("Device:")
+	text += fmt.Sprintln(ink.DeviceKey())
+	text += fmt.Sprintln(ink.DeviceModel())
+	text += fmt.Sprintln(ink.SoftwareVersion())
+	text += fmt.Sprintln(ink.HwAddress())
+	text += fmt.Sprintln(ink.GetCurrentLang())
+	text += fmt.Sprintln(ink.HardwareType())
+	text += fmt.Sprintln(ink.SerialNumber())
+	text += fmt.Sprintln("Screen:")
+	text += fmt.Sprintf("%dx%d\n", screenSize.X, screenSize.Y)
+	text += fmt.Sprintln("Software:")
+	text += fmt.Sprintln(ink.SoftwareVersion())
+	text += fmt.Sprintln("Sensors:")
+	text += fmt.Sprintln(ink.Temperature())
+
+	startPoint := image.Point{screenSize.X / 10, screenSize.Y / 10}
+
+	lines := strings.Split(text, "\n")
+	for _, line := range lines {
+		ink.DrawString(startPoint, line)
+		startPoint.Y += a.fontH
+	}
 
 	ink.PartialUpdate(image.Rectangle{image.Point{0, 0}, screenSize})
 

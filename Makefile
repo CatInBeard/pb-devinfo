@@ -1,4 +1,4 @@
-APP_NAME = example-app
+APP_NAME = devinfo
 
 all: build install
 
@@ -9,3 +9,5 @@ install: # Copy the application to the cable-connected PB
 
 clean:
 	rm $(APP_NAME).app
+test:
+	echo $(PWD)
